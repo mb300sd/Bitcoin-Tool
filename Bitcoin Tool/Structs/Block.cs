@@ -17,16 +17,21 @@ namespace Bitcoin_Tool.Structs
 		public VarInt tx_count { get { return new VarInt(txns.Length); } }
 		public Transaction[] txns = new Transaction[0];
 
-		public Byte[] hash
+		private Hash _hash = null;
+		public Hash hash
 		{
 			get
 			{
-				SHA256 sha256 = new SHA256Managed();
-				using (MemoryStream ms = new MemoryStream(80))
+				if (_hash == null)
 				{
-					this.WriteHeader(ms);
-					return sha256.ComputeHash(sha256.ComputeHash(ms.ToArray())).ToArray();
+					SHA256 sha256 = new SHA256Managed();
+					using (MemoryStream ms = new MemoryStream(80))
+					{
+						this.Write(ms);
+						_hash = sha256.ComputeHash(sha256.ComputeHash(ms.ToArray())).ToArray();
+					}
 				}
+				return _hash;
 			}
 		}
 

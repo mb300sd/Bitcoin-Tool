@@ -77,7 +77,7 @@
     <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject />
+    <StartupObject>Bitcoin_Tool.ComputeUnspentTxOuts</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="BouncyCastle.Crypto">
@@ -93,9 +93,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ComputeUnspentTxOuts.cs" />
+    <Compile Include="Structs\Hash.cs" />
     <Compile Include="Structs\Net\EInvType.cs" />
     <Compile Include="Structs\Net\IPayload.cs" />
-    <Compile Include="Structs\UnspentTxOut.cs" />
     <Compile Include="Util\UnixTimestamp.cs" />
     <Compile Include="Scripts\SigningExtensions.cs" />
     <Compile Include="Structs\Block.cs" />

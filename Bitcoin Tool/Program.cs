@@ -21,7 +21,7 @@ namespace Bitcoin_Tool
 		{
 			TcpClient tcpClient = new TcpClient("10.1.1.40", 8333);
 			NetworkStream ns = tcpClient.GetStream();
-
+			
 			NetAddr localaddr = new NetAddr(Services.NODE_NETWORK,
 				((IPEndPoint)tcpClient.Client.LocalEndPoint).Address, (UInt16)((IPEndPoint)tcpClient.Client.LocalEndPoint).Port);
 			NetAddr remaddr = new NetAddr(Services.NODE_NETWORK,

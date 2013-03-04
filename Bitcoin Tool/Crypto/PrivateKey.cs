@@ -12,6 +12,15 @@ namespace Bitcoin_Tool.Crypto
 		private ECKeyPair ecKeyPair;
 		public PublicKey pubKey { get; private set; }
 
+		public PrivateKey()
+		{
+			Byte[] pk = new Byte[32];
+			RandomNumberGenerator rng = new RNGCryptoServiceProvider();
+			rng.GetBytes(pk);
+			this.ecKeyPair = new ECKeyPair(pk);
+			this.pubKey = new PublicKey(ecKeyPair);
+		}
+
 		public PrivateKey(Byte[] privKey, Boolean compress = false)
 		{
 			this.ecKeyPair = new ECKeyPair(privKey, null, compress);

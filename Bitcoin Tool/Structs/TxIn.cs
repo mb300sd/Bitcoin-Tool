@@ -7,7 +7,7 @@ namespace Bitcoin_Tool.Structs
 {
 	class TxIn : ISerialize
 	{
-		public Byte[] prevOut;
+		public Hash prevOut;
 		public UInt32 prevOutIndex;
 		public VarInt scriptSigLen { get { return new VarInt(scriptSig.Length); } }
 		public Byte[] scriptSig;

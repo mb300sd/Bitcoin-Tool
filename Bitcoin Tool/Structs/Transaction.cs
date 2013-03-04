@@ -15,16 +15,21 @@ namespace Bitcoin_Tool.Structs
 		public TxOut[] outputs;
 		public UInt32 lock_time;
 
-		public Byte[] hash
+		private Hash _hash = null;
+		public Hash hash
 		{
 			get
 			{
-				SHA256 sha256 = new SHA256Managed();
-				using (MemoryStream ms = new MemoryStream(80))
+				if (_hash == null)
 				{
-					this.Write(ms);
-					return sha256.ComputeHash(sha256.ComputeHash(ms.ToArray())).ToArray();
+					SHA256 sha256 = new SHA256Managed();
+					using (MemoryStream ms = new MemoryStream(80))
+					{
+						this.Write(ms);
+						_hash = sha256.ComputeHash(sha256.ComputeHash(ms.ToArray())).ToArray();
+					}
 				}
+				return _hash;
 			}
 		}
 
