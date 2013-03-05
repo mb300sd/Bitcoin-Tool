@@ -23,7 +23,7 @@ namespace Bitcoin_Tool.Structs
 				if (_hash == null)
 				{
 					SHA256 sha256 = new SHA256Managed();
-					using (MemoryStream ms = new MemoryStream(80))
+					using (MemoryStream ms = new MemoryStream())
 					{
 						this.Write(ms);
 						_hash = sha256.ComputeHash(sha256.ComputeHash(ms.ToArray())).ToArray();
