@@ -1,6 +1,6 @@
 ﻿namespace Bitcoin_Tool.Scripts
 {
-	enum OpCode : byte
+	public enum OpCode : byte
 	{
 		// Push Value
 		OP_0 = 0x00,

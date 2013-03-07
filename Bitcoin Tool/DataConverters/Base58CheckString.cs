@@ -4,7 +4,7 @@ using System.Security.Cryptography;
 
 namespace Bitcoin_Tool.DataConverters
 {
-	static class Base58CheckString
+	public static class Base58CheckString
 	{
 		public static String FromByteArray(Byte[] b, Byte version) {
 			SHA256 sha256 = new SHA256Managed();

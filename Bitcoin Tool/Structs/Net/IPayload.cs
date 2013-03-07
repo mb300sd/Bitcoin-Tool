@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Bitcoin_Tool.Structs.Net
 {
-	interface IPayload : ISerialize
+	public interface IPayload : ISerialize
 	{
 	}
 }

@@ -6,7 +6,7 @@ using System.IO;
 
 namespace Bitcoin_Tool.Structs.Net
 {
-	class GetData : IPayload
+	public class GetData : IPayload
 	{
 		public VarInt count { get { return new VarInt(inventory.Length); } }
 		public InvVect[] inventory;

@@ -1,9 +1,10 @@
 ﻿using System;
 using Bitcoin_Tool.DataConverters;
+using System.Linq;
 
 namespace Bitcoin_Tool.Crypto
 {
-	class PublicKey
+	public class PublicKey
 	{
 		private ECKeyPair ecKeyPair;
 		public Address address { get; private set; }
@@ -33,6 +34,18 @@ namespace Bitcoin_Tool.Crypto
 		public Boolean VerifySignature(Byte[] data, Byte[] sig)
 		{
 			return ecKeyPair.verifySignature(data, sig);
+		}
+
+		public override bool Equals(object obj)
+		{
+			if (obj == null || !(obj is PublicKey))
+				return false;
+			return ((PublicKey)obj).ecKeyPair.pubKey.SequenceEqual(this.ecKeyPair.pubKey);
+		}
+
+		public override int GetHashCode()
+		{
+			return ecKeyPair.pubKey.GetHashCode();
 		}
 
 		public static implicit operator Address(PublicKey k)

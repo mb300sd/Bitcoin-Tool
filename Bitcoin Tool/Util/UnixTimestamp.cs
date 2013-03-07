@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Bitcoin_Tool.Util
 {
-	static class UnixTimestamp
+	public static class UnixTimestamp
 	{
 		public static Int64 Now
 		{

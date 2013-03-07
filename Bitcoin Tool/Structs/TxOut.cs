@@ -5,7 +5,7 @@ using System.IO;
 
 namespace Bitcoin_Tool.Structs
 {
-	class TxOut : ISerialize
+	public class TxOut : ISerialize
 	{
 		public UInt64 value;
 		public VarInt scriptPubKeyLen { get { return new VarInt(scriptPubKey.Length); } }

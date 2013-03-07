@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Bitcoin_Tool.Structs.Net
 {
-	enum InvType : uint
+	public enum InvType : uint
 	{
 		ERROR = 0,
 		MSG_TX = 1,

@@ -8,7 +8,7 @@ using Bitcoin_Tool.Crypto;
 
 namespace Bitcoin_Tool.Scripts
 {
-	static class SigningExtensions
+	public static class SigningExtensions
 	{
 		public static Transaction CopyForSigning(this Transaction tx, UInt32 txInIndex, Script subScript, HashType hashType)
 		{

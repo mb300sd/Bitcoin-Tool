@@ -5,7 +5,7 @@ using System.IO;
 
 namespace Bitcoin_Tool.Structs
 {
-	class Block_Disk : Block, ISerialize
+	public class Block_Disk : Block, ISerialize
 	{
 		public UInt32 magic;
 		public UInt32 blockSize;

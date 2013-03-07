@@ -1,6 +1,6 @@
 ﻿namespace Bitcoin_Tool.Scripts
 {
-	enum HashType : byte
+	public enum HashType : byte
 	{
 		SIGHASH_ALL = 0x01,
 		SIGHASH_NONE = 0x02,

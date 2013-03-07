@@ -6,7 +6,7 @@ using System.IO;
 
 namespace Bitcoin_Tool.Structs.Net
 {
-	abstract class EmptyPayload : IPayload
+	public abstract class EmptyPayload : IPayload
 	{
 		protected EmptyPayload()
 		{

@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Bitcoin_Tool.DataConverters
 {
-	static class Base58String
+	public static class Base58String
 	{
 		private const string base58chars = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
 

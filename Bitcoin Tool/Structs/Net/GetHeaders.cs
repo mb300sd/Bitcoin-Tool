@@ -6,7 +6,7 @@ using System.IO;
 
 namespace Bitcoin_Tool.Structs.Net
 {
-	class GetHeaders : IPayload
+	public class GetHeaders : IPayload
 	{
 		public UInt32 version;
 		public VarInt hash_count { get { return new VarInt(block_locator_hashes.Length); } }

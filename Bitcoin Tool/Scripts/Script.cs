@@ -9,7 +9,7 @@ using Bitcoin_Tool.Crypto;
 
 namespace Bitcoin_Tool.Scripts
 {
-	class Script
+	public class Script
 	{
 		private enum IfElseExec
 		{

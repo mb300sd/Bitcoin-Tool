@@ -4,7 +4,7 @@ using Bitcoin_Tool.Crypto;
 
 namespace Bitcoin_Tool.Scripts
 {
-	static class ScriptTemplate
+	public static class ScriptTemplate
 	{
 		public static Script PayToAddress(Address addr)
 		{

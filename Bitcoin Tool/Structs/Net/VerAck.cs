@@ -2,7 +2,7 @@
 
 namespace Bitcoin_Tool.Structs.Net
 {
-	class VerAck : EmptyPayload, IPayload
+	public class VerAck : EmptyPayload, IPayload
 	{
 		public static GetAddr FromStream(Stream s)
 		{

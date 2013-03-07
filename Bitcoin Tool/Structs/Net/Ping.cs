@@ -2,7 +2,7 @@
 
 namespace Bitcoin_Tool.Structs.Net
 {
-	class Ping : EmptyPayload, IPayload
+	public class Ping : EmptyPayload, IPayload
 	{
 		public static Ping FromStream(Stream s)
 		{

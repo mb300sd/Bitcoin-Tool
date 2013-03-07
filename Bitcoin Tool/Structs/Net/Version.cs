@@ -8,7 +8,7 @@ using Bitcoin_Tool.Util;
 
 namespace Bitcoin_Tool.Structs.Net
 {
-	class Version : IPayload
+	public class Version : IPayload
 	{
 		public static Version Default(NetAddr addr_recv, NetAddr addr_from, Int32 start_height)
 		{

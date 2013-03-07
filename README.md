@@ -13,3 +13,15 @@ a variety of functions.
 
 Program.cs contains test code/me playing around/etc and usually contains
 commented out code that can be used for examples.
+
+Apps directory contains mostly complete programs that use the code.
+
+ComputeUnspentTxOut.cs creates and updates a list of all unspent outputs. 
+- Requires that the blockchain contain no orphan blocks.
+
+ComputerAddressBalances.cs uses the unspent txout list to compute a balance of all addresses.
+
+Use FindFirstOrphan.cs to find the file containing orphaned blocks, delete that and all subsequent 
+block files and resync bitcoind.
+
+MakeBootstrap.cs is a failed attempt at creating a bootstrap.dat blockchain without orphaned blocks.

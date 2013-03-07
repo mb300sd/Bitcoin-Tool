@@ -40,7 +40,9 @@ namespace Bitcoin_Tool.Structs
 
 		public override int GetHashCode()
 		{
-			return (hash[0] << 24) | (hash[1] << 16) | (hash[2] << 8) | (hash[3] << 0);
+			if (hash.Length >= 4)
+				return (hash[0] << 24) | (hash[1] << 16) | (hash[2] << 8) | (hash[3] << 0);
+			return hash.GetHashCode();
 		}
 	}
 }

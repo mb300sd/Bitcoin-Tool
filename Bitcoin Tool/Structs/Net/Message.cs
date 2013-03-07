@@ -6,7 +6,7 @@ using System.Security.Cryptography;
 
 namespace Bitcoin_Tool.Structs.Net
 {
-	class Message : ISerialize
+	public class Message : ISerialize
 	{
 		public UInt32 magic;
 		public Byte[] command;

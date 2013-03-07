@@ -6,7 +6,7 @@ using System.IO;
 
 namespace Bitcoin_Tool.Structs.Net
 {
-	class Tx : Structs.Transaction, IPayload
+	public class Tx : Structs.Transaction, IPayload
 	{
 		protected Tx()
 		{

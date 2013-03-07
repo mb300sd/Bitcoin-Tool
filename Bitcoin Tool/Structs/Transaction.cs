@@ -6,7 +6,7 @@ using System.Security.Cryptography;
 
 namespace Bitcoin_Tool.Structs
 {
-	class Transaction : ISerialize
+	public class Transaction : ISerialize
 	{
 		public UInt32 version;
 		public VarInt numInputs { get { return new VarInt(inputs.Length); } }
@@ -16,7 +16,7 @@ namespace Bitcoin_Tool.Structs
 		public UInt32 lock_time;
 
 		private Hash _hash = null;
-		public Hash hash
+		public Hash Hash
 		{
 			get
 			{

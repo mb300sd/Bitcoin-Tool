@@ -6,11 +6,11 @@ using System.Security.Cryptography;
 
 namespace Bitcoin_Tool.Structs
 {
-	class Block : ISerialize
+	public class Block : ISerialize
 	{
 		public UInt32 version;
-		public Byte[] prev_block;
-		public Byte[] merkle_root;
+		public Hash prev_block;
+		public Hash merkle_root;
 		public UInt32 timestamp;
 		public UInt32 bits;
 		public UInt32 nonce;
@@ -18,7 +18,7 @@ namespace Bitcoin_Tool.Structs
 		public Transaction[] txns = new Transaction[0];
 
 		private Hash _hash = null;
-		public Hash hash
+		public Hash Hash
 		{
 			get
 			{
@@ -27,7 +27,7 @@ namespace Bitcoin_Tool.Structs
 					SHA256 sha256 = new SHA256Managed();
 					using (MemoryStream ms = new MemoryStream())
 					{
-						this.Write(ms);
+						this.WriteHeader(ms);
 						_hash = sha256.ComputeHash(sha256.ComputeHash(ms.ToArray())).ToArray();
 					}
 				}

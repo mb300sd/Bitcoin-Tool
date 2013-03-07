@@ -77,7 +77,7 @@
     <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>Bitcoin_Tool.ComputeUnspentTxOuts</StartupObject>
+    <StartupObject>Bitcoin_Tool.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="BouncyCastle.Crypto">
@@ -93,10 +93,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ComputeUnspentTxOuts.cs" />
+    <Compile Include="Apps\ComputeAddressBalances.cs" />
+    <Compile Include="Apps\ComputeUnspentTxOuts.cs" />
+    <Compile Include="Apps\FindFirstOrphan.cs" />
+    <Compile Include="Apps\MakeBootstrap.cs" />
     <Compile Include="Structs\Hash.cs" />
     <Compile Include="Structs\Net\EInvType.cs" />
     <Compile Include="Structs\Net\IPayload.cs" />
+    <Compile Include="Structs\Other\UnspentTxOutHeader.cs" />
+    <Compile Include="Structs\Other\UnspentTxOutList.cs" />
+    <Compile Include="Util\BlockFileReader.cs" />
     <Compile Include="Util\UnixTimestamp.cs" />
     <Compile Include="Scripts\SigningExtensions.cs" />
     <Compile Include="Structs\Block.cs" />
@@ -167,6 +173,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

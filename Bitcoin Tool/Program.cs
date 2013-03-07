@@ -19,6 +19,12 @@ namespace Bitcoin_Tool
 	{
 		static void Main(string[] args)
 		{
+			//Apps.ComputeUnspentTxOuts.Main(args);
+			Apps.ComputeAddressBalances.Main(args);
+		}
+
+		static void _Main(string[] args)
+		{
 			TcpClient tcpClient = new TcpClient("10.1.1.40", 8333);
 			NetworkStream ns = tcpClient.GetStream();
 			

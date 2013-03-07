@@ -9,7 +9,7 @@ using System.IO;
 
 namespace Bitcoin_Tool.Crypto
 {
-	class ECKeyPair
+	public class ECKeyPair
 	{
 		ECDomainParameters ecParams = new ECDomainParameters(
 			SecNamedCurves.GetByName("secp256k1").Curve, SecNamedCurves.GetByName("secp256k1").G, SecNamedCurves.GetByName("secp256k1").N);

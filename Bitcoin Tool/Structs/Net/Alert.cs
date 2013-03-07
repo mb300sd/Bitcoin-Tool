@@ -9,7 +9,7 @@ namespace Bitcoin_Tool.Structs.Net
 	public class Alert : IPayload
 	{
 		/*
-		class AlertData
+		public class AlertData
 		{
 			public Int32 Version;
 			public Int64 RelayUntil;

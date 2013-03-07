@@ -7,7 +7,7 @@ using Bitcoin_Tool.DataConverters;
 
 namespace Bitcoin_Tool.Crypto
 {
-	class PrivateKey
+	public class PrivateKey
 	{
 		private ECKeyPair ecKeyPair;
 		public PublicKey pubKey { get; private set; }

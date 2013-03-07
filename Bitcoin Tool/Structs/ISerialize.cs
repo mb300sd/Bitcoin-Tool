@@ -6,7 +6,7 @@ using System.IO;
 
 namespace Bitcoin_Tool.Structs
 {
-	interface ISerialize
+	public interface ISerialize
 	{
 		void Read(Stream s);
 		void Write(Stream s);

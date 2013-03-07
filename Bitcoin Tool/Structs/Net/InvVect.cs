@@ -6,7 +6,7 @@ using System.IO;
 
 namespace Bitcoin_Tool.Structs.Net
 {
-	class InvVect : ISerialize
+	public class InvVect : ISerialize
 	{
 		public InvType type;
 		public Byte[] hash;

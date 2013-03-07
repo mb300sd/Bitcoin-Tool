@@ -2,7 +2,7 @@
 
 namespace Bitcoin_Tool.Scripts
 {
-	struct ScriptElement
+	public struct ScriptElement
 	{
 		public OpCode opCode;
 		public Byte[] data;

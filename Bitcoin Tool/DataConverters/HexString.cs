@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Bitcoin_Tool.DataConverters
 {
-	static class HexString
+	public static class HexString
 	{
 		public static Byte[] ToByteArray(String s)
 		{

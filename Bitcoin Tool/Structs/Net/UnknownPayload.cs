@@ -6,7 +6,7 @@ using System.IO;
 
 namespace Bitcoin_Tool.Structs.Net
 {
-	class UnknownPayload : IPayload
+	public class UnknownPayload : IPayload
 	{
 		public readonly Byte[] command;
 		public readonly UInt32 len;

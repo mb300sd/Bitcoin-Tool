@@ -5,7 +5,7 @@ using System.IO;
 
 namespace Bitcoin_Tool.Structs
 {
-	class TxIn : ISerialize
+	public class TxIn : ISerialize
 	{
 		public Hash prevOut;
 		public UInt32 prevOutIndex;
