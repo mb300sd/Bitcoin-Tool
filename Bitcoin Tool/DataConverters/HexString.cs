@@ -8,6 +8,8 @@ namespace Bitcoin_Tool.DataConverters
 	{
 		public static Byte[] ToByteArray(String s)
 		{
+			if (s.Length % 2 != 0)
+				throw new ArgumentException();
 			return Enumerable.Range(0, s.Length / 2)
 							 .Select(x => Byte.Parse(s.Substring(2 * x, 2), System.Globalization.NumberStyles.HexNumber))
 							 .ToArray();
@@ -15,6 +17,8 @@ namespace Bitcoin_Tool.DataConverters
 
 		public static Byte[] ToByteArrayReversed(String s)
 		{
+			if (s.Length % 2 != 0)
+				throw new ArgumentException();
 			return Enumerable.Range(0, s.Length / 2)
 							 .Select(x => Byte.Parse(s.Substring(2 * x, 2), System.Globalization.NumberStyles.HexNumber))
 							 .Reverse()

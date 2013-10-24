@@ -20,12 +20,13 @@ namespace Bitcoin_Tool
 		static void Main(string[] args)
 		{
 			//Apps.ComputeUnspentTxOuts.Main(args);
-			Apps.ComputeAddressBalances.Main(args);
+			//Apps.ComputeAddressBalances.Main(args);
+			_Main(args);
 		}
 
 		static void _Main(string[] args)
 		{
-			TcpClient tcpClient = new TcpClient("10.1.1.40", 8333);
+			TcpClient tcpClient = new TcpClient("10.1.1.10", 8333);
 			NetworkStream ns = tcpClient.GetStream();
 			
 			NetAddr localaddr = new NetAddr(Services.NODE_NETWORK,
@@ -35,9 +36,20 @@ namespace Bitcoin_Tool
 			
 			new Message("version", Version.Default(remaddr, localaddr, 0)).Write(ns);
 
-			Tx tx = new Tx(HexString.ToByteArray("0100000001b924de36d37e9b46171036c2380dd3f86c33de7868b95f295c79d057abb876c9000000006c493046022100d35d290d515b2310a81850b14522f3965982ad059b08b7d6646372c9f6f98642022100d2d0fa06f8afa2a9df7bf7e06f901f08fc40882f486b292c217c96706912f23a012103b5091600a12d971b056170a682ea596b6680dd8a784f2960b1bfdc891155db44ffffffff0100ae4c2d000000001976a91443e86640aa84e2a53597e79109e912f8f9ebda1188ac00000000"));
+			List<InvVect> lst = new List<InvVect>();
+			StreamReader fs = new StreamReader(new FileStream(@"C:\inv.txt", FileMode.Open));
+			string line;
+			while ((line = fs.ReadLine()) != null)
+			{
+				lst.Add(new InvVect(InvType.MSG_TX, HexString.ToByteArray(line)));
+			}
+			Inv iv = new Inv(lst.ToArray());
 
-			Message mtx = new Message("tx", tx);
+			Message mtx = new Message("inv", iv);
+
+			//Tx tx = new Tx(HexString.ToByteArray("0100000001b924de36d37e9b46171036c2380dd3f86c33de7868b95f295c79d057abb876c9000000006c493046022100d35d290d515b2310a81850b14522f3965982ad059b08b7d6646372c9f6f98642022100d2d0fa06f8afa2a9df7bf7e06f901f08fc40882f486b292c217c96706912f23a012103b5091600a12d971b056170a682ea596b6680dd8a784f2960b1bfdc891155db44ffffffff0100ae4c2d000000001976a91443e86640aa84e2a53597e79109e912f8f9ebda1188ac00000000"));
+
+			//Message mtx = new Message("tx", tx);
 
 			mtx.Write(ns);
 

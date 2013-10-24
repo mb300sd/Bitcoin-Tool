@@ -9,9 +9,9 @@ namespace Bitcoin_Tool.Crypto
 {
 	public class Address
 	{
-		const Byte PUBKEYHASH = 0x00;
-		const Byte SCRIPTHASH = 0x05;
-		const Byte PUBKEY = 0xFF;
+		public const Byte PUBKEYHASH = 0x00;
+		public const Byte SCRIPTHASH = 0x05;
+		public const Byte PUBKEY = 0xFF;
 
 		private String address = null;
 		private Hash pubKeyHash = null;
@@ -74,7 +74,7 @@ namespace Bitcoin_Tool.Crypto
 			this.address = address;
 		}
 
-		private Byte calcHash()
+		public Byte calcHash()
 		{
 			Byte version;
 			Byte[] hash = Base58CheckString.ToByteArray(address, out version);

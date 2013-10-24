@@ -15,6 +15,11 @@ namespace Bitcoin_Tool.Structs.Net
 		{
 		}
 
+		public Inv(InvVect[] inventory)
+		{
+			this.inventory = inventory;
+		}
+
 		public Inv(Byte[] b)
 		{
 			using (MemoryStream ms = new MemoryStream(b))

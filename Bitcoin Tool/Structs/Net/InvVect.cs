@@ -9,10 +9,16 @@ namespace Bitcoin_Tool.Structs.Net
 	public class InvVect : ISerialize
 	{
 		public InvType type;
-		public Byte[] hash;
+		public Hash hash;
 
 		protected InvVect()
 		{
+		}
+
+		public InvVect(InvType type, Hash hash)
+		{
+			this.type = type;
+			this.hash = hash;
 		}
 
 		public InvVect(Byte[] b)
