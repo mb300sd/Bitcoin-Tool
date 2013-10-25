@@ -16,6 +16,7 @@ namespace Bitcoin_Tool.Crypto
 		private String address = null;
 		private Hash pubKeyHash = null;
 		private Hash scriptHash = null;
+		private Byte? type = null;
 
 		public Hash PubKeyHash
 		{
@@ -51,6 +52,16 @@ namespace Bitcoin_Tool.Crypto
 			}
 		}
 
+		public Byte Type
+		{
+			get
+			{
+				if (type == null)
+					calcHash();
+				return type.Value;
+			}
+		}
+
 		public Address(Byte[] data, Byte version = PUBKEY)
 		{
 			SHA256 sha256 = new SHA256Managed();
@@ -59,6 +70,7 @@ namespace Bitcoin_Tool.Crypto
 			{
 				case PUBKEY:
 					pubKeyHash = ripemd160.ComputeHash(sha256.ComputeHash(data));
+					version = PUBKEYHASH;
 					break;
 				case PUBKEYHASH:
 					pubKeyHash = data;
@@ -67,6 +79,7 @@ namespace Bitcoin_Tool.Crypto
 					scriptHash = data;
 					break;
 			}
+			this.type = version;
 		}
 
 		public Address(String address)
@@ -74,10 +87,10 @@ namespace Bitcoin_Tool.Crypto
 			this.address = address;
 		}
 
-		public Byte calcHash()
+		private Byte calcHash()
 		{
 			Byte version;
-			Byte[] hash = Base58CheckString.ToByteArray(address, out version);
+			Byte[] hash = Base58CheckString.ToByteArray(this.ToString(), out version);
 			switch (version)
 			{
 				case PUBKEYHASH:
@@ -87,6 +100,7 @@ namespace Bitcoin_Tool.Crypto
 					scriptHash = hash;
 					break;
 			}
+			type = version;
 			return version;
 		}
 
@@ -103,7 +117,7 @@ namespace Bitcoin_Tool.Crypto
 		public static Address FromScript(Byte[] b)
 		{
 			Script s = new Script(b);
-			if (s.IsPayToAddress())
+			if (s.IsPayToPubKeyHash())
 				return new Address(s.elements[s.elements.Count - 3].data, PUBKEYHASH);
 			if (s.IsPayToScriptHash())
 				return new Address(s.elements[s.elements.Count - 2].data, SCRIPTHASH);

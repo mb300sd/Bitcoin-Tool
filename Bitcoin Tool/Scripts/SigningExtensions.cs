@@ -59,7 +59,7 @@ namespace Bitcoin_Tool.Scripts
 			return txCopy;
 		}
 
-		public static void Sign(this TxIn txin, Transaction tx, TxOut prevOut, PrivateKey key, HashType hashType = HashType.SIGHASH_ALL)
+		public static void Sign(this TxIn txin, Transaction tx, TxOut prevOut, PrivateKey key, HashType hashType = HashType.SIGHASH_ALL, Script p2shScript = null)
 		{
 			SHA256 sha256 = new SHA256Managed();
 			UInt32 txInIndex;
@@ -71,25 +71,49 @@ namespace Bitcoin_Tool.Scripts
 			if (txInIndex == tx.inputs.Length)
 				throw new ArgumentException("Input not part of transaction.");
 
-			// Only know how to sign if output does not contain OP_CODESEPERATOR for now.
+			// Only know how to sign if output does not contain OP_CODESEPERATOR for now
 			Script subScript = new Script(prevOut.scriptPubKey);
+
+			//// Still don't fully handle codeseperator, but we remove them all as in the spec.
+			//// Might be all we need to do, scriptSig will never contain OP_CODESEPERATOR since we are creating it.
+			////subScript.elements.RemoveAll(x => x.opCode == OpCode.OP_CODESEPARATOR);
+			// Actually, those would be nonstandard anyway
+
 			Transaction txCopy = tx.CopyForSigning(txInIndex, subScript, hashType);
 
 			Byte[] txHash = txCopy.ToBytes().Concat(new Byte[] { (Byte)hashType, 0x00, 0x00, 0x00 }).ToArray();
 			txHash = sha256.ComputeHash(sha256.ComputeHash(txHash));
 
-			Byte[] sig = key.Sign(txHash);
-			sig = sig.Concat(new Byte[] { (Byte)hashType }).ToArray();
-
 			Script s = new Script();
 
-			if (subScript.IsPayToAddress())
+			if (subScript.IsPayToPubKeyHash())
 			{
+				Byte[] sig = key.Sign(txHash).Concat(new Byte[] { (Byte)hashType }).ToArray();
 				s.elements.Add(new ScriptElement(sig));
 				s.elements.Add(new ScriptElement(key.pubKey.ToBytes()));
 			}
 			else if (subScript.IsPayToPublicKey())
 			{
+				Byte[] sig = key.Sign(txHash).Concat(new Byte[] { (Byte)hashType }).ToArray();
+				s.elements.Add(new ScriptElement(sig));
+			}
+			else if (subScript.IsPayToScriptHash())
+			{
+				if (p2shScript == null)
+					throw new ArgumentNullException("P2SH transaction requires serialied script");
+				Byte[] sig = key.Sign(txHash).Concat(new Byte[] { (Byte)hashType }).ToArray();
+				s.elements.Add(new ScriptElement(sig));
+				s.elements.Add(new ScriptElement(p2shScript.ToBytes()));
+			}
+			else if (subScript.IsPayToMultiSig())
+			{
+				Script scriptSig = new Script(txin.scriptSig);
+				if (scriptSig.elements.Count != 0 && !scriptSig.elements[0].matchesSmallInteger)
+					throw new ArgumentException("Unrecognized scriptSig");
+				ScriptVarInt numSigs = new ScriptVarInt(scriptSig.elements[0].data);
+				numSigs.value++;
+				s.elements[0] = new ScriptElement(numSigs.ToBytes());
+				Byte[] sig = key.Sign(txHash).Concat(new Byte[] { (Byte)hashType }).ToArray();
 				s.elements.Add(new ScriptElement(sig));
 			}
 			else

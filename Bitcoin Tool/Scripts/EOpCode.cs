@@ -5,6 +5,7 @@
 		// Push Value
 		OP_0 = 0x00,
 		OP_FALSE = OP_0,
+		// PUSH DATA 0x01-0x4b
 		OP_PUSHDATA1 = 0x4c,
 		OP_PUSHDATA2 = 0x4d,
 		OP_PUSHDATA4 = 0x4e,

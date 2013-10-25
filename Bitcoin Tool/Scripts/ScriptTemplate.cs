@@ -8,6 +8,19 @@ namespace Bitcoin_Tool.Scripts
 	{
 		public static Script PayToAddress(Address addr)
 		{
+			switch (addr.Type)
+			{
+				case Address.PUBKEYHASH:
+					return PayToPubKeyHash(addr);
+				case Address.SCRIPTHASH:
+					return PayToScriptHash(addr);
+				default:
+					throw new ArgumentException("Invalid address");
+			}
+		}
+
+		public static Script PayToPubKeyHash(Address addr)
+		{
 			List<ScriptElement> se = new List<ScriptElement>();
 			se.Add(new ScriptElement(OpCode.OP_DUP));
 			se.Add(new ScriptElement(OpCode.OP_HASH160));
@@ -34,13 +47,13 @@ namespace Bitcoin_Tool.Scripts
 			return new Script(se.ToArray());
 		}
 
-		public static Boolean IsPayToAddress(this Script s)
+		public static Boolean IsPayToPubKeyHash(this Script s)
 		{
 			return (
 				s.elements.Count >= 5 &&
 				s.elements[s.elements.Count - 5].opCode == OpCode.OP_DUP &&
 				s.elements[s.elements.Count - 4].opCode == OpCode.OP_HASH160 &&
-				s.elements[s.elements.Count - 3].isData &&
+				s.elements[s.elements.Count - 3].matchesPubKeyHash &&
 				s.elements[s.elements.Count - 2].opCode == OpCode.OP_EQUALVERIFY &&
 				s.elements[s.elements.Count - 1].opCode == OpCode.OP_CHECKSIG);
 		}
@@ -49,7 +62,7 @@ namespace Bitcoin_Tool.Scripts
 		{
 			return (
 				s.elements.Count >= 2 &&
-				s.elements[s.elements.Count - 2].isData &&
+				s.elements[s.elements.Count - 2].matchesPubKey &&
 				s.elements[s.elements.Count - 1].opCode == OpCode.OP_CHECKSIG);
 		}
 
@@ -58,8 +71,31 @@ namespace Bitcoin_Tool.Scripts
 			return (
 				s.elements.Count >= 3 &&
 				s.elements[s.elements.Count - 3].opCode == OpCode.OP_HASH160 &&
-				s.elements[s.elements.Count - 2].isData &&
+				s.elements[s.elements.Count - 2].matchesScriptHash &&
 				s.elements[s.elements.Count - 1].opCode == OpCode.OP_EQUAL);
+		}
+
+		public static Boolean IsPayToMultiSig(this Script s)
+		{
+			int i = s.elements.Count;
+			if (s.elements[i--].opCode != OpCode.OP_CHECKMULTISIG)
+				return false;
+			if (!s.elements[i--].matchesSmallInteger)
+				return false;
+			while (i >= 0)
+			{
+				if (s.elements[i].matchesPubKey)
+				{
+					i--;
+					continue;
+				}
+				if (s.elements[i].matchesSmallInteger)
+				{
+					return true;
+				}
+				return false;
+			}
+			return false;
 		}
 	}
 }

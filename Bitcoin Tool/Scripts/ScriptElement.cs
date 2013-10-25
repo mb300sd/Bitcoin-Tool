@@ -14,6 +14,46 @@ namespace Bitcoin_Tool.Scripts
 			}
 		}
 
+		public Boolean matchesPubKey
+		{
+			get
+			{
+				return (data != null) && (33 <= data.Length && data.Length <= 120);
+			}
+		}
+
+		public Boolean matchesPubKeyHash
+		{
+			get
+			{
+				return (data != null) && data.Length == (160 / 8);
+			}
+		}
+
+		public Boolean matchesScriptHash
+		{
+			get
+			{
+				return (data != null) && data.Length == (160 / 8);
+			}
+		}
+
+		public Boolean matchesSmallInteger
+		{
+			get
+			{
+				return (opCode == OpCode.OP_0) || ((Byte)OpCode.OP_1 <= (Byte)opCode && (Byte)opCode <= (Byte)OpCode.OP_16);
+			}
+		}
+
+		public Boolean matchesSmallData
+		{
+			get
+			{
+				return (data != null) && (data.Length <= 80);
+			}
+		}
+
 		public ScriptElement(OpCode opCode, Byte[] data = null)
 		{
 			this.opCode = opCode;
