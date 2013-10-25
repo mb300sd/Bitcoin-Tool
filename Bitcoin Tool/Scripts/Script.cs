@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Numerics;
 using System.Security.Cryptography;
+using System.Text;
+using Bitcoin_Tool.DataConverters;
 using Bitcoin_Tool.Structs;
 using Bitcoin_Tool.Crypto;
 
@@ -59,7 +61,15 @@ namespace Bitcoin_Tool.Scripts
 			}
 		}
 
-		public Script(ScriptElement[] elements)
+		public Script(Script scriptSig, Script scriptPubKey)
+		{
+			elements = scriptSig.elements
+				.Concat(new ScriptElement[] {new ScriptElement(OpCode.OP_CODESEPARATOR)})
+				.Concat(scriptPubKey.elements)
+				.ToList();
+		}
+
+		public Script(IEnumerable<ScriptElement> elements)
 		{
 			this.elements = elements.ToList();
 		}
@@ -989,6 +999,23 @@ namespace Bitcoin_Tool.Scripts
 				}
 				return ms.ToArray();
 			}
+		}
+
+		public override string ToString()
+		{
+			StringBuilder sb = new StringBuilder();
+			foreach (ScriptElement se in elements)
+			{
+				if (se.isData)
+				{
+					sb.AppendFormat("{0} ", HexString.FromByteArray(se.data));
+				}
+				else
+				{
+					sb.AppendFormat("{0} ", se.opCode.ToString());
+				}
+			}
+			return sb.Remove(sb.Length - 1, 1).ToString();
 		}
 	}
 }

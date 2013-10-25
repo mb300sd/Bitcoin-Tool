@@ -23,7 +23,7 @@ namespace Bitcoin_Tool.Apps
 				utxo = UnspentTxOutList.FromStream(fs);
 			}
 		
-			foreach (KeyValuePair<UnspentTxOutHeader, TxOut> txo in utxo)
+			foreach (KeyValuePair<TxOutId, TxOut> txo in utxo)
 			{
 				Address a = Address.FromScript(txo.Value.scriptPubKey);
 				if (a == null)

@@ -45,14 +45,14 @@ namespace Bitcoin_Tool.Apps
 					{
 						if (txin.prevOutIndex == 0xFFFFFFFF) //coinbase
 							continue;
-						if (!utxo.TryRemove(new UnspentTxOutHeader(txin.prevOut, txin.prevOutIndex)))
+						if (!utxo.TryRemove(new TxOutId(txin.prevOut, txin.prevOutIndex)))
 						{
 							Console.WriteLine("Error: Invalid TxIn! Blockchain likely contains orphans.");
 							return;
 						}
 					}
 					for (uint i = 0; i < tx.outputs.Length; i++)
-						utxo.Add(new UnspentTxOutHeader(tx.Hash, i), tx.outputs[i]);
+						utxo.Add(new TxOutId(tx.Hash, i), tx.outputs[i]);
 				}
 			}
 

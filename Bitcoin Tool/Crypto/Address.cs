@@ -11,7 +11,8 @@ namespace Bitcoin_Tool.Crypto
 	{
 		public const Byte PUBKEYHASH = 0x00;
 		public const Byte SCRIPTHASH = 0x05;
-		public const Byte PUBKEY = 0xFF;
+		public const Byte PUBKEY = 0xFE;
+		public const Byte SCRIPT = 0xFF;
 
 		private String address = null;
 		private Hash pubKeyHash = null;
@@ -71,6 +72,10 @@ namespace Bitcoin_Tool.Crypto
 				case PUBKEY:
 					pubKeyHash = ripemd160.ComputeHash(sha256.ComputeHash(data));
 					version = PUBKEYHASH;
+					break;
+				case SCRIPT:
+					scriptHash = ripemd160.ComputeHash(sha256.ComputeHash(data));
+					version = SCRIPTHASH;
 					break;
 				case PUBKEYHASH:
 					pubKeyHash = data;

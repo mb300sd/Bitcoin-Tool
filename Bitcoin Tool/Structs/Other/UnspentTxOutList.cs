@@ -7,10 +7,10 @@ using System.IO;
 
 namespace Bitcoin_Tool.Structs.Other
 {
-	public class UnspentTxOutList : ISerialize, IEnumerable<KeyValuePair<UnspentTxOutHeader, TxOut>>
+	public class UnspentTxOutList : ISerialize, IEnumerable<KeyValuePair<TxOutId, TxOut>>
 	{
-		Dictionary<UnspentTxOutHeader, TxOut> utxo = new Dictionary<UnspentTxOutHeader, TxOut>();
-		List<KeyValuePair<UnspentTxOutHeader, TxOut>> duptxout = new List<KeyValuePair<UnspentTxOutHeader, TxOut>>();
+		Dictionary<TxOutId, TxOut> utxo = new Dictionary<TxOutId, TxOut>();
+		List<KeyValuePair<TxOutId, TxOut>> duptxout = new List<KeyValuePair<TxOutId, TxOut>>();
 
 		public UnspentTxOutList()
 		{
@@ -22,7 +22,7 @@ namespace Bitcoin_Tool.Structs.Other
 				Read(ms);
 		}
 
-		public void Add(UnspentTxOutHeader h, TxOut txo)
+		public void Add(TxOutId h, TxOut txo)
 		{
 			try
 			{
@@ -31,11 +31,11 @@ namespace Bitcoin_Tool.Structs.Other
 			catch (ArgumentException)
 			{
 				// Duplicate!
-				duptxout.Add(new KeyValuePair<UnspentTxOutHeader, TxOut>(h, txo));
+				duptxout.Add(new KeyValuePair<TxOutId, TxOut>(h, txo));
 			}
 		}
 
-		public bool TryRemove(UnspentTxOutHeader h)
+		public bool TryRemove(TxOutId h)
 		{
 			if (utxo.Remove(h))
 				return true;
@@ -58,16 +58,16 @@ namespace Bitcoin_Tool.Structs.Other
 			UInt64 count = br.ReadUInt64();
 			for (UInt64 i = 0; i < count; i++)
 			{
-				UnspentTxOutHeader h = UnspentTxOutHeader.FromStream(s);
+				TxOutId h = TxOutId.FromStream(s);
 				TxOut t = TxOut.FromStream(s);
 				utxo.Add(h, t);
 			}
 			UInt64 dupcount = br.ReadUInt64();
 			for (UInt64 i = 0; i < dupcount; i++)
 			{
-				UnspentTxOutHeader h = UnspentTxOutHeader.FromStream(s);
+				TxOutId h = TxOutId.FromStream(s);
 				TxOut t = TxOut.FromStream(s);
-				duptxout.Add(new KeyValuePair<UnspentTxOutHeader, TxOut>(h, t));
+				duptxout.Add(new KeyValuePair<TxOutId, TxOut>(h, t));
 			}
 		}
 
@@ -87,13 +87,13 @@ namespace Bitcoin_Tool.Structs.Other
 
 			BinaryWriter bw = new BinaryWriter(s);
 			bw.Write((UInt64)utxo.Count);
-			foreach (KeyValuePair<UnspentTxOutHeader, TxOut> h in utxo)
+			foreach (KeyValuePair<TxOutId, TxOut> h in utxo)
 			{
 				h.Key.Write(s);
 				h.Value.Write(s);
 			}
 			bw.Write((UInt64)duptxout.Count);
-			foreach (KeyValuePair<UnspentTxOutHeader, TxOut> h in duptxout)
+			foreach (KeyValuePair<TxOutId, TxOut> h in duptxout)
 			{
 				h.Key.Write(s);
 				h.Value.Write(s);
@@ -116,9 +116,9 @@ namespace Bitcoin_Tool.Structs.Other
 			return x;
 		}
 
-		public IEnumerator<KeyValuePair<UnspentTxOutHeader, TxOut>> GetEnumerator()
+		public IEnumerator<KeyValuePair<TxOutId, TxOut>> GetEnumerator()
 		{
-			IEnumerator<KeyValuePair<UnspentTxOutHeader, TxOut>> e;
+			IEnumerator<KeyValuePair<TxOutId, TxOut>> e;
 			e = utxo.GetEnumerator();
 			while (e.MoveNext())
 				yield return e.Current;
@@ -129,7 +129,7 @@ namespace Bitcoin_Tool.Structs.Other
 
 		IEnumerator IEnumerable.GetEnumerator()
 		{
-			IEnumerator<KeyValuePair<UnspentTxOutHeader, TxOut>> e;
+			IEnumerator<KeyValuePair<TxOutId, TxOut>> e;
 			e = utxo.GetEnumerator();
 			while (e.MoveNext())
 				yield return e.Current;

@@ -103,12 +103,14 @@
     <Compile Include="RPC\BitcoinRPC.cs" />
     <Compile Include="RPC\BitcoinRPCError.cs" />
     <Compile Include="RPC\BitcoinRPCException.cs" />
+    <Compile Include="Scripts\ValidationExtensions.cs" />
     <Compile Include="Structs\Hash.cs" />
     <Compile Include="Structs\Net\EInvType.cs" />
     <Compile Include="Structs\Net\IPayload.cs" />
-    <Compile Include="Structs\Other\UnspentTxOutHeader.cs" />
+    <Compile Include="Structs\Other\TxOutId.cs" />
     <Compile Include="Structs\Other\UnspentTxOutList.cs" />
     <Compile Include="Util\BlockFileReader.cs" />
+    <Compile Include="Util\SignMessage.cs" />
     <Compile Include="Util\UnixTimestamp.cs" />
     <Compile Include="Scripts\SigningExtensions.cs" />
     <Compile Include="Structs\Block.cs" />

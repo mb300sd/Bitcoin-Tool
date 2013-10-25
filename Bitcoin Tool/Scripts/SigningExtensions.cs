@@ -59,7 +59,7 @@ namespace Bitcoin_Tool.Scripts
 			return txCopy;
 		}
 
-		public static void Sign(this TxIn txin, Transaction tx, TxOut prevOut, PrivateKey key, HashType hashType = HashType.SIGHASH_ALL, Script p2shScript = null)
+		public static void Sign(this TxIn txin, Transaction tx, TxOut prevOut, PrivateKey key, HashType hashType = HashType.SIGHASH_ALL, Script redeemScript = null)
 		{
 			SHA256 sha256 = new SHA256Managed();
 			UInt32 txInIndex;
@@ -86,35 +86,35 @@ namespace Bitcoin_Tool.Scripts
 
 			Script s = new Script();
 
+			if (subScript.IsPayToScriptHash())
+			{
+				if (redeemScript == null)
+					throw new ArgumentNullException("P2SH transaction requires serialied script");
+
+				s.elements.Add(new ScriptElement(redeemScript.ToBytes()));
+				subScript = redeemScript;
+			}
+
 			if (subScript.IsPayToPubKeyHash())
 			{
 				Byte[] sig = key.Sign(txHash).Concat(new Byte[] { (Byte)hashType }).ToArray();
-				s.elements.Add(new ScriptElement(sig));
-				s.elements.Add(new ScriptElement(key.pubKey.ToBytes()));
+				s.elements.Insert(0, new ScriptElement(sig));
+				s.elements.Insert(1, new ScriptElement(key.pubKey.ToBytes()));
 			}
 			else if (subScript.IsPayToPublicKey())
 			{
 				Byte[] sig = key.Sign(txHash).Concat(new Byte[] { (Byte)hashType }).ToArray();
-				s.elements.Add(new ScriptElement(sig));
-			}
-			else if (subScript.IsPayToScriptHash())
-			{
-				if (p2shScript == null)
-					throw new ArgumentNullException("P2SH transaction requires serialied script");
-				Byte[] sig = key.Sign(txHash).Concat(new Byte[] { (Byte)hashType }).ToArray();
-				s.elements.Add(new ScriptElement(sig));
-				s.elements.Add(new ScriptElement(p2shScript.ToBytes()));
+				s.elements.Insert(0, new ScriptElement(sig));
 			}
 			else if (subScript.IsPayToMultiSig())
 			{
 				Script scriptSig = new Script(txin.scriptSig);
-				if (scriptSig.elements.Count != 0 && !scriptSig.elements[0].matchesSmallInteger)
-					throw new ArgumentException("Unrecognized scriptSig");
-				ScriptVarInt numSigs = new ScriptVarInt(scriptSig.elements[0].data);
-				numSigs.value++;
-				s.elements[0] = new ScriptElement(numSigs.ToBytes());
+
+				if (scriptSig.elements.Count == 0)
+					scriptSig.elements.Add(new ScriptElement(OpCode.OP_0));
+
 				Byte[] sig = key.Sign(txHash).Concat(new Byte[] { (Byte)hashType }).ToArray();
-				s.elements.Add(new ScriptElement(sig));
+				s.elements.Insert(0, new ScriptElement(sig));
 			}
 			else
 			{
