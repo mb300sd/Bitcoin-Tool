@@ -15,6 +15,12 @@ namespace Bitcoin_Tool.Util
 				fs = new FileStream(@"C:\Users\Administrator\AppData\Roaming\Bitcoin\blocks\blk" + blockFileNum.ToString("D5") + ".dat", FileMode.Open);
 			}
 
+			public BlockFileReader(string file)
+			{
+				blockFileNum = 0;
+				fs = new FileStream(file, FileMode.Open);
+			}
+
 			public Block_Disk getNext()
 			{
 				while (fs.Position < fs.Length)
