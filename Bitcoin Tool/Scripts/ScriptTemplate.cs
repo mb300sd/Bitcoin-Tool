@@ -77,7 +77,7 @@ namespace Bitcoin_Tool.Scripts
 
 		public static Boolean IsPayToMultiSig(this Script s)
 		{
-			int i = s.elements.Count;
+			int i = s.elements.Count - 1;
 			if (s.elements[i--].opCode != OpCode.OP_CHECKMULTISIG)
 				return false;
 			if (!s.elements[i--].matchesSmallInteger)
