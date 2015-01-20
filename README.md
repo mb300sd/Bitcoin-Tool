@@ -25,3 +25,6 @@ Use FindFirstOrphan.cs to find the file containing orphaned blocks, delete that 
 block files and resync bitcoind.
 
 MakeBootstrap.cs is a failed attempt at creating a bootstrap.dat blockchain without orphaned blocks.
+
+Code is GPLv3
+https://www.gnu.org/licenses/gpl-3.0.html
